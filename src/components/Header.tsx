@@ -35,13 +35,22 @@ export default function Header() {
       <div className="container mx-auto flex h-20 items-center justify-between px-4">
         
         {/* Logo Section */}
-        <div className="flex items-center gap-2">
-          <div className="bg-red-600 p-2 rounded-lg">
-            <Newspaper className="text-white" size={24} />
-          </div>
+        <div
+          className="flex items-center gap-3 cursor-pointer"
+          onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+        >
+          {/* NEW IMAGE LOGO */}
+          <img
+            src="/logo.png"
+            alt="Jaishimhanagar Logo"
+            className="h-16 w-16 object-contain rounded-full shadow-md border-2 border-red-500 bg-white"
+          />
+
           <div>
-            <h1 className="text-xl font-black">{t.title}</h1>
-            <p className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest">Humnabad News</p>
+            <h1 className="text-xl md:text-2xl font-black leading-tight">ಜೈಸಿಂಹನಗರ ದಿನಪತ್ರಿಕೆ</h1>
+            <p className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest">
+              {lang === "KN" ? "ನಿಮ್ಮ ಸಮಸ್ಯೆಗೆ ನಮ್ಮ ಧ್ವನಿ" : "Your Problem, Our Voice"}
+            </p>
           </div>
         </div>
 

@@ -1,21 +1,28 @@
 import { Mail, Phone, MapPin, Facebook, Youtube, ExternalLink } from "lucide-react";
+import { useTheme } from "next-themes";
+import { useLanguage } from "@/context/LanguageContext";
 
 export default function Footer() {
+  const { theme, setTheme } = useTheme();
+    const { lang, setLang } = useLanguage();
   return (
     <footer className="bg-slate-50 dark:bg-slate-950 border-t border-slate-200 dark:border-slate-800 pt-16 pb-8 mt-20">
       <div className="container mx-auto px-4">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-12">
           
           {/* Column 1: About */}
-          <div>
-            <h3 className="text-xl font-black mb-6">ಜಯಸಿಂಹನಗರ ದಿನಪತ್ರಿಕೆ</h3>
+          <div className="flex flex-col items-center md:items-start">
+            <img
+              src="/logo.png"
+              alt="Jaishimhanagar Logo"
+              className="h-24 w-24 object-contain mb-4 bg-white p-1 rounded-full border shadow-sm"
+            />
+            <h3 className="text-xl font-black mb-2">ಜೈಸಿಂಹನಗರ ದಿನಪತ್ರಿಕೆ</h3>
             <p className="text-sm text-muted-foreground leading-relaxed">
-              ಹುಮ್ನಾಬಾದ್ ಮತ್ತು ಬಿದರ್ ಜಿಲ್ಲೆಯ ಅತೀ ವೇಗದ ಮತ್ತು ನಿಖರ ಸುದ್ದಿ ವಾಹಿನಿ. ಜನರ ಧ್ವನಿಯಾಗಿ ನಿಮ್ಮೊಂದಿಗೆ ಸದಾ ಸಿದ್ಧ.
+              {lang === "KN"
+                ? "ಹುಮ್ನಾಬಾದ್ ಮತ್ತು ಬಿದರ್ ಜಿಲ್ಲೆಯ ಅತೀ ವೇಗದ ಮತ್ತು ನಿಖರ ಸುದ್ದಿ ವಾಹಿನಿ."
+                : "The fastest and most accurate news channel in Humnabad and Bidar district."}
             </p>
-            <div className="flex gap-4 mt-6">
-              <a href="#" className="p-2 bg-blue-600 text-white rounded-full hover:scale-110 transition-transform"><Facebook size={18}/></a>
-              <a href="#" className="p-2 bg-red-600 text-white rounded-full hover:scale-110 transition-transform"><Youtube size={18}/></a>
-            </div>
           </div>
 
           {/* Column 2: Quick Links */}
