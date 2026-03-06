@@ -10,7 +10,7 @@ const slides = [
     titleKN: "ಶ್ರೀ ವೀರಭದ್ರೇಶ್ವರ ದೇವಸ್ಥಾನ",
     titleEN: "Sri Veerabhadreshwara Temple",
     // Verified Temple/Architecture ID
-    imageUrl: "https://images.unsplash.com/photo-1519810755548-39cd217da494?q=80&w=1600&auto=format&fit=crop", 
+    imageUrl: "/Sri_Veerabhadreshwara_Temple_HB1.jpg", 
   },
   {
     id: 2,
