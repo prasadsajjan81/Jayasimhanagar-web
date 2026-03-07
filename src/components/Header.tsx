@@ -29,11 +29,13 @@ export default function Header() {
       <div className="container mx-auto flex h-20 items-center justify-between px-4">
         
         {/* Logo */}
-        <div className="flex items-center gap-2 cursor-pointer" onClick={() => window.scrollTo({top: 0, behavior: 'smooth'})}>
+        <div className="flex items-center gap-2 cursor-pointer" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>
           <img src="/logo.png" alt="Logo" className="h-12 w-12 rounded-full border border-red-500 bg-white" />
           <div className="hidden sm:block">
-            <h1 className="text-lg font-black leading-tight">{t.title}</h1>
-            <p className="text-[9px] font-bold text-muted-foreground uppercase tracking-tighter">Your Problem, Our Voice</p>
+            <h1 className="text-xl md:text-2xl font-black leading-tight">{t.title}</h1>
+            <p className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest">
+              {lang === "KN" ? "ನಿಮ್ಮ ಸಮಸ್ಯೆಗೆ ನಮ್ಮ ಧ್ವನಿ" : "Your Problem, Our Voice"}
+            </p>
           </div>
         </div>
 
