@@ -15,9 +15,16 @@ const slides = [
   {
     id: 2,
     titleKN: "ಸಿದ್ಧು ಪಾಟೀಲ್ - ಶಾಸಕರು - ಅಭಿವೃದ್ಧಿ ಪಥ",
-    titleEN: "Siddu Patil - Development Path",
+    titleEN: "Siddu Patil - MLA - Development Path",
     // Verified News/Political ID
     imageUrl: "https://images.unsplash.com/photo-1529107386315-e1a2ed48a620?q=80&w=1600&auto=format&fit=crop", 
+  },
+  {
+    id: 3,
+    titleKN: "ಜನರ ನಂಬಿಕೆಯ ನಾಯಕ – ಹುಮನಾಬಾದ್‌ನ ರಾಜಶೇಖರ ಪಾಟೀಲ್",
+    titleEN: "Leader trusted by the people – Rajshekar Patil of Humnabad.",
+    // Verified Temple/Architecture ID
+    imageUrl: "/rajshekar_patil.jpg", 
   },
 ];
 
@@ -40,7 +47,7 @@ export default function Hero() {
           initial={{ opacity: 0, scale: 1.05 }}
           animate={{ opacity: 1, scale: 1 }}
           exit={{ opacity: 0 }}
-          transition={{ duration: 1.2 }}
+          transition={{ duration: 1 }}
           className="absolute inset-0"
         >
           {/* Black Gradient Overlay for Text Visibility */}

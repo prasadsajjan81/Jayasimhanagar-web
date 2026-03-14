@@ -1,26 +1,44 @@
+// src/components/EPaper.tsx
 import { urlFor } from "@/lib/sanity";
-import { FileText } from "lucide-react";
+import { Calendar, FileText, ChevronRight, Loader2 } from "lucide-react";
 
-export default function EPaper({ data }: { data: any }) {
-  if (!data) return null;
+export default function EPaper({ data }: { data: any[] | null }) {
+  if (!data) return <div className="h-40 flex items-center justify-center"><Loader2 className="animate-spin text-red-600" /></div>;
+  if (data.length === 0) return null;
 
   return (
-    <section className="my-12 p-8 bg-red-50 dark:bg-red-950/20 rounded-3xl border-2 border-red-100 dark:border-red-900/30">
-      <div className="flex flex-col md:flex-row gap-8 items-center">
-        <div className="w-full md:w-1/3">
-           {data.thumbnail && <img src={urlFor(data.thumbnail).url()} alt="E-Paper" className="rounded-xl shadow-2xl" />}
-        </div>
-        <div className="flex-1">
-          <h2 className="text-3xl font-black text-red-600 mb-2">ಇ-ಪೇಪರ್ (E-Paper)</h2>
-          <p className="mb-4 font-bold">ದಿನಾಂಕ: {data.publishDate}</p>
-          <div className="max-h-[300px] overflow-y-auto grid grid-cols-2 sm:grid-cols-4 gap-3">
-            {data.pdfUrls?.map((url: string, index: number) => (
-              <a key={index} href={url} target="_blank" className="flex flex-col items-center bg-white dark:bg-slate-800 p-3 rounded-xl border hover:bg-red-600 hover:text-white transition-all">
-                <span className="text-xl font-black">{index + 1}</span>
-              </a>
-            ))}
-          </div>
-        </div>
+    <section className="w-full">
+      {/* GRID LAYOUT: NO SCROLLBAR. 1 on Mobile, 3 on Tablet, 6 on Desktop */}
+      <div className="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-6 gap-4">
+        {data.slice(0, 6).map((paper: any) => (
+          <a 
+            key={paper._id} 
+            href={paper.pdfFiles?.[0]?.asset?.url || "#"} 
+            target="_blank"
+            className="group cursor-pointer"
+          >
+            <div className="bg-white dark:bg-slate-900 rounded-xl overflow-hidden border border-slate-200 dark:border-slate-800 transition-all duration-300 group-hover:border-red-500 group-hover:shadow-xl">
+              
+              <div className="relative aspect-[3/4] overflow-hidden bg-slate-100">
+                {paper.thumbnail ? (
+                  <img src={urlFor(paper.thumbnail).width(300).url()} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" alt="E-Paper" />
+                ) : (
+                  <div className="flex items-center justify-center h-full text-slate-300"><FileText size={40} /></div>
+                )}
+                <div className="absolute bottom-2 right-2 bg-red-600 text-white text-[9px] font-black px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity">READ NOW</div>
+              </div>
+
+              <div className="p-3 bg-white dark:bg-slate-900">
+                <div className="flex items-center gap-1 text-red-600 mb-1">
+                   <Calendar size={10} />
+                   <span className="text-[8px] font-black uppercase tracking-widest">Daily Edition</span>
+                </div>
+                <h3 className="font-black text-xs text-slate-800 dark:text-slate-100">{paper.publishDate}</h3>
+                <p className="text-[9px] text-muted-foreground mt-1 font-bold uppercase">{paper.pdfFiles?.length || 0} Pages</p>
+              </div>
+            </div>
+          </a>
+        ))}
       </div>
     </section>
   );

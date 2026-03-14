@@ -21,7 +21,7 @@ export default function Home() {
   const [mounted, setMounted] = useState(false); 
   
   const [newsItems, setNewsItems] = useState([]);
-  const [epaperData, setEpaperData] = useState(null);
+  const [epaperData, setEpaperData] = useState<any[]>([]);
   const [politicsData, setPoliticsData] = useState({ mla: null, news: [] });
   const [templeData, setTempleData] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -55,19 +55,24 @@ export default function Home() {
     setMounted(true);
     async function fetchAllData() {
       try {
-        // Fetch only 6 items for homepage speed
+        // 1. Fetch News
         const news = await client.fetch(`*[_type == "news" && category != "Politics"] | order(publishedAt desc)[0...6]`);
         setNewsItems(news);
 
-        const epaper = await client.fetch(`*[_type == "epaper"] | order(publishDate desc)[0] {
-          publishDate, "pdfUrls": pdfFiles[].asset->url, thumbnail
+        // 2. FETCH MULTIPLE E-PAPERS (Fixes your issue)
+        // We fetch the latest 10 uploaded E-Paper documents
+        const epaper = await client.fetch(`*[_type == "epaper"] | order(publishDate desc)[0...10] {
+          _id,
+          publishDate,
+          "pdfFiles": pdfFiles[]{ asset->{url} },
+          thumbnail
         }`);
         setEpaperData(epaper);
 
+        // 3. Fetch Politics and Temples (Same as before)
         const mla = await client.fetch(`*[_type == "mla"][0]`);
         const pNews = await client.fetch(`*[_type == "news" && category == "Politics"] | order(publishedAt desc)[0...3]`);
         setPoliticsData({ mla, news: pNews });
-
         const temples = await client.fetch(`*[_type == "temple"]`);
         setTempleData(temples);
 
@@ -89,13 +94,19 @@ export default function Home() {
         <Hero />
         
         {/* E-PAPER SECTION - Fixed layout so title is above content */}
-        <div id="epaper" className="scroll-mt-24 mt-10">
-          <div className="flex justify-between items-center mb-6">
-            <h2 className="text-3xl font-black text-red-600">{content.epaper}</h2>
-            <Link href="/epaper-archive" className="text-sm font-bold text-slate-500 hover:text-red-600 flex items-center gap-1 transition-colors">
-              {lang === "KN" ? "ಹಳೆಯ ಪತ್ರಿಕೆಗಳು" : "Archives"} <ExternalLink size={14} />
+        {/* E-PAPER SECTION */}
+        <div id="epaper" className="scroll-mt-24 mt-12">
+          <div className="flex justify-between items-end mb-8 border-b-4 border-red-600 pb-2">
+            <div>
+               <h2 className="text-4xl font-black text-red-600 leading-none">{content.epaper}</h2>
+               <p className="text-[10px] font-bold text-muted-foreground mt-2 uppercase tracking-tighter">Digital Newspaper Archives</p>
+            </div>
+            <Link href="/epaper-archive" className="text-sm font-bold bg-slate-100 dark:bg-slate-800 px-4 py-2 rounded-full hover:bg-red-600 hover:text-white transition-all flex items-center gap-1">
+              {lang === "KN" ? "ಎಲ್ಲಾ ಪತ್ರಿಕೆಗಳು" : "View All"} <ExternalLink size={14} />
             </Link>
           </div>
+          
+          {/* THE CARDS ROW */}
           <EPaper data={epaperData} />
         </div>
 
@@ -137,7 +148,7 @@ export default function Home() {
         </div>
 
         {/* SOCIAL MEDIA FEEDS */}
-        <SocialFeed />
+       {/*  <SocialFeed />*/}
 
         {/* HERITAGE CARDS */}
         <TempleHeritage temples={templeData} />
