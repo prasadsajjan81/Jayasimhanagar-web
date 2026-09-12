@@ -3,7 +3,7 @@ import { notFound } from "next/navigation";
 import { client } from "@/lib/sanity";
 import EPaperViewer from "./viewer";
 
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://www.jaishimhanagar.com";
 
 type EPaper = {
   _id: string;
