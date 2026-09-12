@@ -9,11 +9,17 @@ type EPaper = {
   _id: string;
   publishDate?: string;
   pdfUrl?: string;
+  thumbnailUrl?: string;
 };
 
 async function getEPaper(id: string): Promise<EPaper | null> {
   return client.fetch(
-    `*[_type == "epaper" && _id == $id][0]{_id, publishDate, "pdfUrl": pdfFiles[0].asset->url}`,
+    `*[_type == "epaper" && _id == $id][0]{
+      _id,
+      publishDate,
+      "pdfUrl": pdfFiles[0].asset->url,
+      "thumbnailUrl": thumbnail.asset->url
+    }`,
     { id },
   );
 }
@@ -24,7 +30,7 @@ export async function generateMetadata({ params }: { params: Promise<{ id: strin
   if (!paper) return { title: "E-paper not found" };
 
   const title = `Jaishimhanagar E-paper - ${paper.publishDate || "Latest edition"}`;
-  const thumbnailUrl = `${siteUrl}/api/epaper-thumbnail?id=${encodeURIComponent(id)}&v=2`;
+  const thumbnailUrl = paper.thumbnailUrl || `${siteUrl}/logo.png`;
   return {
     title,
     description: `Read the Jaishimhanagar newspaper e-paper for ${paper.publishDate || "today"}.`,
@@ -33,7 +39,7 @@ export async function generateMetadata({ params }: { params: Promise<{ id: strin
       description: `Read the Jaishimhanagar newspaper e-paper for ${paper.publishDate || "today"}.`,
       url: `${siteUrl}/epaper/${id}`,
       type: "article",
-      images: [{ url: thumbnailUrl, width: 900, height: 1200, alt: "E-paper front page" }],
+      images: [{ url: thumbnailUrl, width: 900, height: 1200, alt: "Jaishimhanagar e-paper" }],
     },
     twitter: {
       card: "summary_large_image",
