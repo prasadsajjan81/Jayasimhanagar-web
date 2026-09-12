@@ -101,13 +101,18 @@ export default function Home() {
                <h2 className="text-4xl font-black text-red-600 leading-none">{content.epaper}</h2>
                <p className="text-[10px] font-bold text-muted-foreground mt-2 uppercase tracking-tighter">Digital Newspaper Archives</p>
             </div>
-            <Link href="/epaper-archive" className="w-fit shrink-0 self-end text-sm font-bold bg-slate-100 dark:bg-slate-800 px-4 py-2 rounded-full hover:bg-red-600 hover:text-white transition-all flex items-center gap-1">
+            <Link href="/epaper-archive" className="w-fit shrink-0 self-end rounded-full bg-red-600 px-4 py-2 text-sm font-bold text-white shadow-sm transition-all hover:bg-red-700 flex items-center gap-1">
               {lang === "KN" ? "ಎಲ್ಲಾ ಪತ್ರಿಕೆಗಳು" : "View All"} <ExternalLink size={14} />
             </Link>
           </div>
           
           {/* THE CARDS ROW */}
           <EPaper data={epaperData} />
+          <div className="mt-8 flex justify-center">
+            <Link href="/epaper-archive" className="inline-flex items-center gap-2 rounded-full bg-red-600 px-6 py-3 text-sm font-black text-white shadow-md transition-all hover:bg-red-700 hover:shadow-lg">
+              {lang === "KN" ? "ಎಲ್ಲಾ ಪತ್ರಿಕೆಗಳು" : "VIEW ALL E-PAPERS"} <ExternalLink size={15} />
+            </Link>
+          </div>
         </div>
 
         {/* DAILY NEWS SECTION */}
