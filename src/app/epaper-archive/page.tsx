@@ -5,10 +5,18 @@ import Footer from "@/components/Footer";
 import { client, urlFor } from "@/lib/sanity";
 import { useLanguage } from "@/context/LanguageContext";
 import { Calendar as CalendarIcon, FileText } from "lucide-react";
+import PdfThumbnail from "@/components/PdfThumbnail";
+
+type ArchivePaper = {
+  _id: string;
+  publishDate?: string;
+  pdfUrl?: string;
+  thumbnail?: unknown;
+};
 
 export default function EPaperArchive() {
   const { lang } = useLanguage();
-  const [archives, setArchives] = useState([]);
+  const [archives, setArchives] = useState<ArchivePaper[]>([]);
 
   useEffect(() => {
     async function fetchEPapers() {
@@ -33,16 +41,17 @@ export default function EPaperArchive() {
         </h1>
 
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-6">
-          {archives.map((paper: any) => (
+          {archives.map((paper) => (
             <a 
               key={paper._id} 
-              href={paper.pdfUrl || "#"} 
-              target="_blank" 
+              href={`/epaper/${paper._id}`}
               className="group bg-white dark:bg-slate-900 rounded-xl overflow-hidden border border-slate-200 dark:border-slate-800 hover:border-red-500 transition-all shadow-sm hover:shadow-2xl"
             >
                <div className="relative aspect-[3/4] bg-slate-100">
                  {paper.thumbnail ? (
                    <img src={urlFor(paper.thumbnail).width(300).url()} alt="E-Paper" className="w-full h-full object-cover group-hover:scale-105 transition-all duration-500" />
+                 ) : paper.pdfUrl ? (
+                   <PdfThumbnail pdfUrl={paper.pdfUrl} alt="E-Paper front page" />
                  ) : (
                    <div className="flex items-center justify-center h-full text-slate-300"><FileText size={40}/></div>
                  )}

@@ -6,7 +6,7 @@ export const client = createClient({
   projectId: "tx0yow9y", // Ensure your real ID is here
   dataset: "production",
   apiVersion: "2024-01-01",
-  useCdn: true,
+  useCdn: false,
 });
 
 // Updated way to initialize the image builder
