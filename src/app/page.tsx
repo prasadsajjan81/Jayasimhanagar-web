@@ -96,12 +96,12 @@ export default function Home() {
         {/* E-PAPER SECTION - Fixed layout so title is above content */}
         {/* E-PAPER SECTION */}
         <div id="epaper" className="scroll-mt-24 mt-12">
-          <div className="flex justify-between items-end mb-8 border-b-4 border-red-600 pb-2">
+          <div className="flex flex-col gap-4 border-b-4 border-red-600 pb-3 mb-8 sm:flex-row sm:items-end sm:justify-between">
             <div>
                <h2 className="text-4xl font-black text-red-600 leading-none">{content.epaper}</h2>
                <p className="text-[10px] font-bold text-muted-foreground mt-2 uppercase tracking-tighter">Digital Newspaper Archives</p>
             </div>
-            <Link href="/epaper-archive" className="text-sm font-bold bg-slate-100 dark:bg-slate-800 px-4 py-2 rounded-full hover:bg-red-600 hover:text-white transition-all flex items-center gap-1">
+            <Link href="/epaper-archive" className="w-fit shrink-0 self-end text-sm font-bold bg-slate-100 dark:bg-slate-800 px-4 py-2 rounded-full hover:bg-red-600 hover:text-white transition-all flex items-center gap-1">
               {lang === "KN" ? "ಎಲ್ಲಾ ಪತ್ರಿಕೆಗಳು" : "View All"} <ExternalLink size={14} />
             </Link>
           </div>
