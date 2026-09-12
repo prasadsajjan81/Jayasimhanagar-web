@@ -25,8 +25,7 @@ export default function YoutubeGrid() {
 
   return (
     <section className="my-12 rounded-3xl bg-slate-50 px-6 py-12 dark:bg-slate-900/50">
-      <div className="mb-8 flex items-center justify-between gap-4">
-        <h2 className="text-3xl font-black">ವೀಡಿಯೊ ಸುದ್ದಿಗಳು (YouTube News)</h2>
+      <div className="mb-8 flex items-center justify-end gap-4">
         <a href={channelUrl} target="_blank" rel="noreferrer" className="flex items-center gap-2 border-b-2 border-red-600 text-sm font-bold text-red-600">
           <Youtube size={18} /> Subscribe
         </a>
