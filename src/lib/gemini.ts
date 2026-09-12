@@ -1,50 +1,29 @@
-// src/lib/gemini.ts
-const GROQ_API_KEY = process.env.NEXT_PUBLIC_GROQ_API_KEY || "";
-// src/lib/gemini.ts
 export async function translateText(text: string, targetLang: string) {
   try {
     const response = await fetch("/api/translate", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ text })
+      body: JSON.stringify({ text, targetLang }),
     });
+    if (!response.ok) return text;
     const data = await response.json();
     return data.translated || text;
-  } catch (error) {
+  } catch {
     return text;
   }
 }
 
-// Do the same for summarizeNews by creating a /api/summarize route if needed.
-
 export async function summarizeNews(headline: string, content: string) {
-  if (!GROQ_API_KEY) return "ಸಾರಾಂಶ ಲಭ್ಯವಿಲ್ಲ.";
-
   try {
-    const response = await fetch("https://api.groq.com/openai/v1/chat/completions", {
+    const response = await fetch("/api/summarize", {
       method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "Authorization": `Bearer ${GROQ_API_KEY}`
-      },
-      body: JSON.stringify({
-        model: "llama-3.1-8b-instant", // Smaller/faster model for summaries
-        messages: [
-          {
-            role: "system",
-            content: "Summarize this news into exactly 3 Kannada bullet points."
-          },
-          {
-            role: "user",
-            content: `Headline: ${headline}. Content: ${content}`
-          }
-        ]
-      })
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ headline, content }),
     });
-
+    if (!response.ok) return "ಸಾರಾಂಶ ಲಭ್ಯವಿಲ್ಲ.";
     const data = await response.json();
-    return data.choices[0].message.content;
-  } catch (e) {
-    return "ಸಾರಾಂಶ ಸಿದ್ಧಪಡಿಸುವಲ್ಲಿ ದೋಷ ಉಂಟಾಗಿದೆ.";
+    return data.summary || "ಸಾರಾಂಶ ಲಭ್ಯವಿಲ್ಲ.";
+  } catch {
+    return "ಸಾರಾಂಶ ಲಭ್ಯವಿಲ್ಲ.";
   }
 }

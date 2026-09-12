@@ -36,7 +36,11 @@ export default function NewsCard({ post }: { post: any }) {
   const handleSummary = async () => {
     setLoadingAI(true);
     try {
-      const aiSummary = await summarizeNews(post.title, "Full report from Humnabad.");
+      const articleContent = post.body || post.content;
+      const sourceText = articleContent
+        ? JSON.stringify(articleContent)
+        : "Full report from Humnabad.";
+      const aiSummary = await summarizeNews(post.title, sourceText);
       setSummary(aiSummary);
     } catch (error) {
       setSummary("Error generating AI summary.");
