@@ -4,6 +4,7 @@ import { urlFor } from "@/lib/sanity";
 import { Calendar, Sparkles, Loader2, ArrowRight } from "lucide-react";
 import { useLanguage } from "@/context/LanguageContext";
 import { translateText, summarizeNews } from "@/lib/gemini";
+import Link from "next/link";
 
 export default function NewsCard({ post }: { post: any }) {
   const { lang } = useLanguage();
@@ -88,10 +89,10 @@ export default function NewsCard({ post }: { post: any }) {
         )}
 
         <div className="mt-auto pt-4 border-t border-slate-100 dark:border-slate-800 flex justify-between items-center">
-          <button className="text-sm font-black text-red-600 flex items-center gap-1 group/btn">
+          <Link href={`/news/${post._id}`} className="text-sm font-black text-red-600 flex items-center gap-1 group/btn">
             {lang === "KN" ? "ಮತ್ತಷ್ಟು ಓದಿ" : "READ MORE"} 
             <ArrowRight size={16} className="group-hover/btn:translate-x-1 transition-transform"/>
-          </button>
+          </Link>
         </div>
       </div>
     </div>
