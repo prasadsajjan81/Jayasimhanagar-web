@@ -24,7 +24,7 @@ export async function generateMetadata({ params }: { params: Promise<{ id: strin
   if (!paper) return { title: "E-paper not found" };
 
   const title = `Jaishimhanagar E-paper - ${paper.publishDate || "Latest edition"}`;
-  const thumbnailUrl = `${siteUrl}/api/epaper-thumbnail?id=${encodeURIComponent(id)}`;
+  const thumbnailUrl = `${siteUrl}/api/epaper-thumbnail?id=${encodeURIComponent(id)}&v=2`;
   return {
     title,
     description: `Read the Jaishimhanagar newspaper e-paper for ${paper.publishDate || "today"}.`,
