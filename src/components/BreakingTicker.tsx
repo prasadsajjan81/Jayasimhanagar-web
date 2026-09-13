@@ -16,7 +16,7 @@ export default function BreakingTicker({ posts }: { posts: TickerPost[] }) {
   if (items.length === 0) return null;
 
   return (
-    <div className="mb-6 flex items-stretch overflow-hidden rounded-2xl border border-red-200 bg-red-50 dark:border-red-950 dark:bg-red-950/30">
+    <div className="mt-4 mb-6 flex items-stretch overflow-hidden rounded-2xl border border-red-200 bg-red-50 dark:border-red-950 dark:bg-red-950/30 md:mt-6">
       <div className="flex shrink-0 items-center gap-2 bg-red-600 px-4 py-3 text-xs font-black uppercase tracking-wider text-white">
         <Radio size={15} className="animate-pulse" />
         {lang === "KN" ? "ತಾಜಾ ಸುದ್ದಿ" : "Latest"}
