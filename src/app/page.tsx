@@ -8,6 +8,9 @@ import PoliticsSection from "@/components/PoliticsSection";
 import SocialFeed from "@/components/SocialFeed";
 import TempleHeritage from "@/components/TempleHeritage";
 import YoutubeGrid from "@/components/YoutubeGrid";
+import BreakingTicker from "@/components/BreakingTicker";
+import LocalNewsCTA from "@/components/LocalNewsCTA";
+import NewsFilters from "@/components/NewsFilters";
 import Footer from "@/components/Footer";
 import { client } from "@/lib/sanity";
 import { useLanguage } from "@/context/LanguageContext";
@@ -20,7 +23,8 @@ export default function Home() {
   const { lang } = useLanguage();
   const [mounted, setMounted] = useState(false); 
   
-  const [newsItems, setNewsItems] = useState([]);
+  const [newsItems, setNewsItems] = useState<any[]>([]);
+  const [allNewsItems, setAllNewsItems] = useState<any[]>([]);
   const [epaperData, setEpaperData] = useState<any[]>([]);
   const [politicsData, setPoliticsData] = useState({ mla: null, news: [] });
   const [templeData, setTempleData] = useState([]);
@@ -56,8 +60,9 @@ export default function Home() {
     async function fetchAllData() {
       try {
         // 1. Fetch News
-        const news = await client.fetch(`*[_type == "news" && category != "Politics"] | order(publishedAt desc)[0...6]`);
+        const news = await client.fetch(`*[_type == "news" && category != "Politics"] | order(publishedAt desc)[0...24]`);
         setNewsItems(news);
+        setAllNewsItems(news);
 
         // 2. FETCH MULTIPLE E-PAPERS (Fixes your issue)
         // We fetch the latest 10 uploaded E-Paper documents
@@ -91,7 +96,8 @@ export default function Home() {
     <div className="min-h-screen bg-background">
       <Header />
       <div className="container mx-auto px-4">
-        <Hero />
+        <BreakingTicker posts={allNewsItems} />
+        <Hero posts={allNewsItems} />
         
         {/* E-PAPER SECTION - Fixed layout so title is above content */}
         {/* E-PAPER SECTION */}
@@ -124,6 +130,7 @@ export default function Home() {
 
           {/* This container ensures the grid and button stay together */}
           <div className="bg-slate-50 dark:bg-slate-900/40 p-6 md:p-10 rounded-[40px] border border-slate-100 dark:border-slate-800">
+            <NewsFilters posts={allNewsItems} onChange={setNewsItems} />
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
               {newsItems.length > 0 ? (
                 newsItems.map((post: any) => (
@@ -133,6 +140,8 @@ export default function Home() {
                 <p className="col-span-3 text-center py-10 text-muted-foreground italic">No news items found. Add news in Admin Panel!</p>
               )}
             </div>
+
+            <LocalNewsCTA />
 
             {/* THE BUTTON - Forced Visibility */}
             <div className="flex justify-center mt-16">

@@ -33,7 +33,7 @@ export default function Header() {
           <img src="/logo.png" alt="Logo" className="h-12 w-12 rounded-full border border-red-500 bg-white" />
           <div className="hidden sm:block">
             <h1 className="text-xl md:text-2xl font-black leading-tight">{t.title}</h1>
-            <p className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest">
+            <p className="text-[10px] font-bold uppercase tracking-widest text-slate-600 dark:text-slate-300">
               {lang === "KN" ? "ನಿಮ್ಮ ಸಮಸ್ಯೆಗೆ ನಮ್ಮ ಧ್ವನಿ" : "Your Problem, Our Voice"}
             </p>
           </div>
@@ -50,9 +50,9 @@ export default function Header() {
         {/* Controls */}
         <div className="flex items-center gap-2 md:gap-4">
            {/* Language Toggle */}
-           <div className="flex bg-slate-100 dark:bg-slate-800 p-1 rounded-full border">
-              <button onClick={() => setLang("KN")} className={`px-2 py-1 rounded-full text-[10px] font-bold ${lang === "KN" ? "bg-red-600 text-white" : "text-foreground"}`}>KN</button>
-              <button onClick={() => setLang("EN")} className={`px-2 py-1 rounded-full text-[10px] font-bold ${lang === "EN" ? "bg-red-600 text-white" : "text-foreground"}`}>EN</button>
+           <div className="flex rounded-full border border-slate-300 bg-slate-100 p-1 dark:border-slate-600 dark:bg-slate-800">
+              <button onClick={() => setLang("KN")} className={`rounded-full px-2 py-1 text-[10px] font-bold ${lang === "KN" ? "bg-red-600 text-white" : "text-slate-900 dark:text-slate-100"}`}>KN</button>
+              <button onClick={() => setLang("EN")} className={`rounded-full px-2 py-1 text-[10px] font-bold ${lang === "EN" ? "bg-red-600 text-white" : "text-slate-900 dark:text-slate-100"}`}>EN</button>
            </div>
            
            <button onClick={() => setTheme(theme === "dark" ? "light" : "dark")} className="p-2 text-foreground">

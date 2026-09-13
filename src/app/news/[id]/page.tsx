@@ -1,8 +1,11 @@
 import type { Metadata } from "next";
 import { PortableText } from "@portabletext/react";
 import { notFound } from "next/navigation";
-import { Calendar } from "lucide-react";
+import { Calendar, UserRound } from "lucide-react";
 import { client, urlFor } from "@/lib/sanity";
+import Header from "@/components/Header";
+import Footer from "@/components/Footer";
+import ArticleShare from "@/components/ArticleShare";
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://www.jaishimhanagar.com";
 
@@ -11,6 +14,8 @@ type NewsArticle = {
   title?: string;
   category?: string;
   publishedAt?: string;
+  _updatedAt?: string;
+  author?: string;
   mainImage?: Record<string, unknown>;
   body?: unknown[];
   content?: unknown[];
@@ -18,7 +23,7 @@ type NewsArticle = {
 
 async function getArticle(id: string): Promise<NewsArticle | null> {
   return client.fetch(
-    `*[_type == "news" && _id == $id][0]{_id,title,category,publishedAt,mainImage,body,content}`,
+    `*[_type == "news" && _id == $id][0]{_id,title,category,publishedAt,_updatedAt,author,mainImage,body,content}`,
     { id },
   );
 }
@@ -41,6 +46,7 @@ export async function generateMetadata({ params }: { params: Promise<{ id: strin
       images: [{ url: imageUrl, width: 1200, height: 630, alt: title }],
     },
     twitter: { card: "summary_large_image", title, description: "Jaishimhanagar News", images: [imageUrl] },
+    alternates: { canonical: `${siteUrl}/news/${id}` },
   };
 }
 
@@ -51,22 +57,32 @@ export default async function NewsArticlePage({ params }: { params: Promise<{ id
 
   const blocks = article.body || article.content || [];
   return (
-    <main className="min-h-screen bg-background">
+    <div className="min-h-screen bg-background">
+      <Header />
       <article className="mx-auto max-w-4xl px-4 py-12">
         <p className="mb-4 text-xs font-black uppercase tracking-widest text-red-600">{article.category || "News"}</p>
         <h1 className="text-3xl font-black leading-tight md:text-5xl">{article.title}</h1>
-        {article.publishedAt && (
-          <p className="mt-5 flex items-center gap-2 text-sm font-bold text-muted-foreground">
-            <Calendar size={15} /> {new Date(article.publishedAt).toLocaleDateString("en-IN")}
-          </p>
-        )}
+        <div className="mt-5 flex flex-wrap items-center gap-x-5 gap-y-2 text-sm font-bold text-muted-foreground">
+          {article.publishedAt && <span className="flex items-center gap-2"><Calendar size={15} /> Published {new Date(article.publishedAt).toLocaleDateString("en-IN")}</span>}
+          <span className="flex items-center gap-2"><UserRound size={15} /> {article.author || "Jaishimhanagar News Desk"}</span>
+          {article._updatedAt && article._updatedAt !== article.publishedAt && <span>Updated {new Date(article._updatedAt).toLocaleDateString("en-IN")}</span>}
+        </div>
+        <ArticleShare title={article.title || "Jaishimhanagar News"} />
         {article.mainImage && (
           <img src={urlFor(article.mainImage).width(1200).url()} alt={article.title || "News"} className="mt-8 max-h-[560px] w-full rounded-2xl object-cover" />
         )}
         <div className="prose prose-lg mt-10 max-w-none dark:prose-invert">
-          {blocks.length > 0 ? <PortableText value={blocks as never} /> : <p>Full article content is not available yet.</p>}
+          {blocks.length > 0 ? (
+            <PortableText value={blocks as never} />
+          ) : (
+            <div className="rounded-2xl border border-amber-200 bg-amber-50 p-5 text-amber-900 dark:border-amber-900 dark:bg-amber-950/30 dark:text-amber-100">
+              <p className="font-bold">Story content has not been published for this article yet.</p>
+              <p className="mt-1 text-sm">Please add the full story in the Sanity Admin Panel under “Story Content” and publish the document.</p>
+            </div>
+          )}
         </div>
       </article>
-    </main>
+      <Footer />
+    </div>
   );
 }

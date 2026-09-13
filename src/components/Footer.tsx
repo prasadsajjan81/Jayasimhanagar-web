@@ -1,3 +1,5 @@
+"use client";
+
 import { Mail, Phone, MapPin, Facebook, Youtube, ExternalLink } from "lucide-react";
 import { useTheme } from "next-themes";
 import { useLanguage } from "@/context/LanguageContext";
@@ -17,8 +19,8 @@ export default function Footer() {
               alt="Jaishimhanagar Logo"
               className="h-24 w-24 object-contain mb-4 bg-white p-1 rounded-full border shadow-sm"
             />
-            <h3 className="text-xl font-black mb-2">ಜೈಸಿಂಹನಗರ ದಿನಪತ್ರಿಕೆ</h3>
-            <p className="text-sm text-muted-foreground leading-relaxed">
+            <h3 className="mb-2 text-xl font-black text-slate-900 dark:text-white">ಜೈಸಿಂಹನಗರ ದಿನಪತ್ರಿಕೆ</h3>
+            <p className="text-sm leading-relaxed text-slate-600 dark:text-slate-300">
               {lang === "KN"
                 ? "ಹುಮ್ನಾಬಾದ್ ಮತ್ತು ಬಿದರ್ ಜಿಲ್ಲೆಯ ಅತೀ ವೇಗದ ಮತ್ತು ನಿಖರ ಸುದ್ದಿ ವಾಹಿನಿ."
                 : "The fastest and most accurate news channel in Humnabad and Bidar district."}
@@ -27,8 +29,8 @@ export default function Footer() {
 
           {/* Column 2: Quick Links */}
           <div>
-            <h4 className="font-bold mb-6 uppercase tracking-wider text-xs">Categories</h4>
-            <ul className="space-y-3 text-sm font-medium">
+            <h4 className="mb-6 text-xs font-bold uppercase tracking-wider text-slate-900 dark:text-white">Categories</h4>
+            <ul className="space-y-3 text-sm font-medium text-slate-700 dark:text-slate-200">
               <li><a href="#" className="hover:text-red-600 transition-colors">ಸ್ಥಳೀಯ ಸುದ್ದಿ (Local)</a></li>
               <li><a href="#" className="hover:text-red-600 transition-colors">ರಾಜಕೀಯ (Politics)</a></li>
               <li><a href="#" className="hover:text-red-600 transition-colors">ಇ-ಪೇಪರ್ (E-Paper)</a></li>
@@ -38,8 +40,8 @@ export default function Footer() {
 
           {/* Column 3: Contact Info */}
           <div>
-            <h4 className="font-bold mb-6 uppercase tracking-wider text-xs">Contact Us</h4>
-            <ul className="space-y-4 text-sm">
+            <h4 className="mb-6 text-xs font-bold uppercase tracking-wider text-slate-900 dark:text-white">Contact Us</h4>
+            <ul className="space-y-4 text-sm text-slate-700 dark:text-slate-200">
               <li className="flex items-center gap-3"><Phone size={16} className="text-red-600"/> Editor - Ravishankar Pandey</li>
               <li className="flex items-center gap-3"><Phone size={16} className="text-red-600"/> +91 9986124437 </li>
               <li className="flex items-center gap-3"><Mail size={16} className="text-red-600"/> Jaishimhanagar@gmail.com</li>
@@ -49,8 +51,8 @@ export default function Footer() {
 
           {/* Column 4: Newsletter */}
           <div className="bg-white dark:bg-slate-900 p-6 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm">
-            <h4 className="font-bold mb-2">Subscribe</h4>
-            <p className="text-xs text-muted-foreground mb-4">Get daily news updates in your inbox.</p>
+            <h4 className="mb-2 font-bold text-slate-900 dark:text-white">Subscribe</h4>
+            <p className="mb-4 text-xs text-slate-600 dark:text-slate-300">Get daily news updates in your inbox.</p>
             <div className="flex gap-2">
               <input type="email" placeholder="Email" className="bg-slate-100 dark:bg-slate-800 border-none rounded-lg px-3 py-2 text-sm w-full outline-none focus:ring-1 ring-red-500" />
               <button className="bg-red-600 text-white px-4 py-2 rounded-lg text-sm font-bold">→</button>
@@ -64,14 +66,14 @@ export default function Footer() {
             © 2026 ಜಯಸಿಂಹನಗರ ದಿನಪತ್ರಿಕೆ. All rights reserved.
           </p>
           <div className="flex items-center gap-2 text-xs">
-            <span className="text-muted-foreground">Developed by</span>
+            <span className="text-slate-600 dark:text-slate-300">Developed by</span>
             <a 
               href="https://tedmuf.com" 
               className="flex items-center gap-1 font-bold text-slate-900 dark:text-white hover:text-red-600 transition-colors"
             >
               Tedmuf Solutions Private Limited - +91 7506549564 <ExternalLink size={12}/>
             </a>
-            <span className="text-muted-foreground ml-2 border-l pl-2">CEO: Basavprasad Sajjanshetty</span>
+            <span className="ml-2 border-l pl-2 text-slate-600 dark:text-slate-300">CEO: Basavprasad Sajjanshetty</span>
           </div>
         </div>
       </div>

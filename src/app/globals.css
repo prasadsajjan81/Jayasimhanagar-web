@@ -3,16 +3,19 @@
 @theme {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
+  --color-muted-foreground: var(--muted-foreground);
 }
 
 :root {
   --background: #ffffff;
   --foreground: #020617; /* Dark blue/black for light mode */
+  --muted-foreground: #475569;
 }
 
 .dark {
   --background: #020617; /* Deep black/blue for dark mode */
   --foreground: #f8fafc; /* White/slate for dark mode text */
+  --muted-foreground: #cbd5e1;
 }
 
 body {
@@ -20,9 +23,4 @@ body {
   color: var(--foreground); /* This forces all text to follow the theme */
   transition: background-color 0.3s ease, color 0.3s ease;
   min-height: 100vh;
-}
-
-/* Fix for footer icons/text specifically */
-footer p, footer span, footer a {
-  color: var(--foreground) !important;
 }

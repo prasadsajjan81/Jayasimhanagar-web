@@ -52,12 +52,20 @@ export default function NewsCard({ post }: { post: any }) {
     <div className="group bg-background border border-slate-200 dark:border-slate-800 rounded-3xl overflow-hidden hover:shadow-2xl transition-all duration-500 flex flex-col h-full">
       {/* Image Section */}
       <div className="relative h-56 w-full overflow-hidden">
-        {post.mainImage && (
+        {post.mainImage ? (
           <img
             src={urlFor(post.mainImage).url()}
-            alt="News"
+            alt={post.title || "News article"}
             className="object-cover w-full h-full group-hover:scale-110 transition-transform duration-700"
+            onError={(event) => {
+              event.currentTarget.src = "/logo.png";
+              event.currentTarget.className = "object-contain w-full h-full p-16 opacity-70";
+            }}
           />
+        ) : (
+          <div className="flex h-full w-full items-center justify-center bg-slate-100 dark:bg-slate-800">
+            <img src="/logo.png" alt="" className="h-24 w-24 object-contain opacity-60" />
+          </div>
         )}
         <div className="absolute top-4 left-4 bg-red-600 text-white text-[10px] font-black px-3 py-1 rounded-full uppercase tracking-widest">
           {post.category}
@@ -68,7 +76,9 @@ export default function NewsCard({ post }: { post: any }) {
       <div className="p-6 flex flex-col flex-1">
         <div className="flex items-center gap-2 text-muted-foreground text-[10px] font-bold mb-3">
           <Calendar size={12} />
-          {new Date(post.publishedAt).toLocaleDateString(lang === "KN" ? "kn-IN" : "en-US")}
+          {post.publishedAt
+            ? new Date(post.publishedAt).toLocaleDateString(lang === "KN" ? "kn-IN" : "en-US")
+            : lang === "KN" ? "ದಿನಾಂಕ ಲಭ್ಯವಿಲ್ಲ" : "Date unavailable"}
         </div>
 
         <h3 className={`text-xl font-bold leading-tight mb-4 transition-all ${isTranslating ? 'opacity-30 blur-sm' : 'opacity-100 blur-0'}`}>

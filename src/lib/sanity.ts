@@ -1,6 +1,6 @@
 import { createClient } from "next-sanity";
 // Changed to named export to remove the warning
-import createImageUrlBuilder from '@sanity/image-url'; 
+import { createImageUrlBuilder } from "@sanity/image-url";
 
 export const client = createClient({
   projectId: "tx0yow9y", // Ensure your real ID is here
