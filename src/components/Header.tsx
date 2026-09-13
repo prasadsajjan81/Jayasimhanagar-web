@@ -1,6 +1,7 @@
 "use client";
 import { useTheme } from "next-themes";
-import { Sun, Moon, Newspaper, MapPin, Tv, Menu, X } from "lucide-react";
+import { Sun, Moon, Newspaper, MapPin, Tv, Menu, X, Store } from "lucide-react";
+import Link from "next/link";
 import { useState, useEffect } from "react";
 import { useLanguage } from "@/context/LanguageContext";
 
@@ -14,8 +15,8 @@ export default function Header() {
   if (!mounted) return null;
 
   const t = {
-    KN: { title: "ಜೈಸಿಂಹನಗರ ದಿನಪತ್ರಿಕೆ", local: "ಸ್ಥಳೀಯ ಸುದ್ದಿ", politics: "ರಾಜಕೀಯ", epaper: "ಇ-ಪೇಪರ್", live: "ಲೈವ್ ಟಿವಿ" },
-    EN: { title: "Jaishimhanagar News", local: "Local News", politics: "Politics", epaper: "E-Paper", live: "Live TV" }
+    KN: { title: "ಜೈಸಿಂಹನಗರ ದಿನಪತ್ರಿಕೆ", local: "ಸ್ಥಳೀಯ ಸುದ್ದಿ", politics: "ರಾಜಕೀಯ", epaper: "ಇ-ಪೇಪರ್", business: "ವ್ಯಾಪಾರಗಳು", live: "ಲೈವ್ ಟಿವಿ" },
+    EN: { title: "Jaishimhanagar News", local: "Local News", politics: "Politics", epaper: "E-Paper", business: "Businesses & Ads", live: "Live TV" }
   }[lang as "KN" | "EN"];
 
   const scrollTo = (id: string) => {
@@ -44,6 +45,7 @@ export default function Header() {
           <button onClick={() => scrollTo('news')} className="hover:text-red-600 transition-colors">{t.local}</button>
           <button onClick={() => scrollTo('politics')} className="hover:text-red-600 transition-colors">{t.politics}</button>
           <button onClick={() => scrollTo('epaper')} className="hover:text-red-600 transition-colors">{t.epaper}</button>
+          <Link href="/businesses" className="flex items-center gap-1 hover:text-red-600 transition-colors"><Store size={16} /> {t.business}</Link>
           <button onClick={() => scrollTo('live')} className="text-red-600 flex items-center gap-1 animate-pulse"><Tv size={16}/> {t.live}</button>
         </nav>
 
@@ -72,6 +74,7 @@ export default function Header() {
           <button onClick={() => scrollTo('news')} className="text-xl font-bold border-b pb-2">{t.local}</button>
           <button onClick={() => scrollTo('politics')} className="text-xl font-bold border-b pb-2">{t.politics}</button>
           <button onClick={() => scrollTo('epaper')} className="text-xl font-bold border-b pb-2">{t.epaper}</button>
+          <Link href="/businesses" onClick={() => setIsMenuOpen(false)} className="flex items-center gap-2 border-b pb-2 text-xl font-bold"><Store size={20} /> {t.business}</Link>
           <button onClick={() => scrollTo('live')} className="text-xl font-bold text-red-600">{t.live}</button>
         </div>
       )}
