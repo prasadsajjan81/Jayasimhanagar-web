@@ -3,6 +3,7 @@
 import { Check, Copy, Facebook, MessageCircle, Share2 } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useLanguage } from "@/context/LanguageContext";
+import { buildArticleShareMessage } from "@/lib/sharing";
 
 export default function ArticleShare({ title }: { title: string }) {
   const { lang } = useLanguage();
@@ -11,7 +12,8 @@ export default function ArticleShare({ title }: { title: string }) {
   const [shareUrl, setShareUrl] = useState("");
   useEffect(() => setShareUrl(window.location.href), []);
   const encodedUrl = encodeURIComponent(shareUrl);
-  const encodedTitle = encodeURIComponent(title);
+  const shareMessage = buildArticleShareMessage(title, shareUrl);
+  const encodedMessage = encodeURIComponent(shareMessage);
 
   const copyLink = async () => {
     if (!shareUrl) return;
@@ -22,7 +24,7 @@ export default function ArticleShare({ title }: { title: string }) {
 
   const nativeShare = async () => {
     if (navigator.share) {
-      await navigator.share({ title, text: title, url: shareUrl });
+      await navigator.share({ title, text: shareMessage, url: shareUrl });
     } else {
       await copyLink();
     }
@@ -35,7 +37,7 @@ export default function ArticleShare({ title }: { title: string }) {
         {lang === "KN" ? "ಹಂಚಿಕೊಳ್ಳಿ" : "Share"}
       </span>
       <a
-        href={`https://wa.me/?text=${encodedTitle}%20${encodedUrl}`}
+        href={`https://wa.me/?text=${encodedMessage}`}
         target="_blank"
         rel="noreferrer"
         aria-label="Share on WhatsApp"

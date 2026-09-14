@@ -3,6 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import { ArrowLeft, ExternalLink, Share2 } from "lucide-react";
+import { buildEpaperShareMessage } from "@/lib/sharing";
 
 export default function EPaperViewer({ paper }: { paper: { publishDate?: string; pdfUrl: string } }) {
   const [shared, setShared] = useState(false);
@@ -11,9 +12,9 @@ export default function EPaperViewer({ paper }: { paper: { publishDate?: string;
 
   async function sharePaper() {
     if (navigator.share) {
-      await navigator.share({ title: shareText, text: shareText, url: shareUrl });
+      await navigator.share({ title: shareText, text: buildEpaperShareMessage(shareText, shareUrl), url: shareUrl });
     } else {
-      window.open(`https://wa.me/?text=${encodeURIComponent(`${shareText}\n${shareUrl}`)}`, "_blank", "noopener,noreferrer");
+      window.open(`https://wa.me/?text=${encodeURIComponent(buildEpaperShareMessage(shareText, shareUrl))}`, "_blank", "noopener,noreferrer");
     }
     setShared(true);
   }

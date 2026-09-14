@@ -1,7 +1,8 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { Youtube } from "lucide-react";
+import { MessageCircle, Youtube } from "lucide-react";
+import { buildVideoShareMessage } from "@/lib/sharing";
 
 const channelUrl = "https://www.youtube.com/@Jaishimhanagardinapatrike";
 
@@ -34,13 +35,25 @@ export default function YoutubeGrid() {
       {videos.length > 0 ? (
         <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4">
           {videos.map((video) => (
-            <a key={video.id} href={`https://www.youtube.com/watch?v=${video.id}`} target="_blank" rel="noreferrer" className="group overflow-hidden rounded-xl bg-black">
-              <div className="relative aspect-video">
+            <div key={video.id} className="group overflow-hidden rounded-xl bg-black">
+              <a href={`https://www.youtube.com/watch?v=${video.id}`} target="_blank" rel="noreferrer">
+                <div className="relative aspect-video">
                 <img src={`https://i.ytimg.com/vi/${video.id}/hqdefault.jpg`} className="h-full w-full object-cover transition-transform group-hover:scale-105" alt={video.title} />
                 <span className="absolute inset-0 flex items-center justify-center bg-black/20 text-4xl text-white transition-colors group-hover:bg-black/5">▶</span>
+                </div>
+                <div className="line-clamp-2 bg-background p-3 text-sm font-bold">{video.title}</div>
+              </a>
+              <div className="bg-background px-3 pb-3">
+                <a
+                  href={`https://wa.me/?text=${encodeURIComponent(buildVideoShareMessage(video.title, `https://www.youtube.com/watch?v=${video.id}`))}`}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="inline-flex items-center gap-2 rounded-full bg-[#25D366] px-3 py-2 text-xs font-black text-white hover:bg-[#1ebe5b]"
+                >
+                  <MessageCircle size={14} /> Share
+                </a>
               </div>
-              <div className="line-clamp-2 bg-background p-3 text-sm font-bold">{video.title}</div>
-            </a>
+            </div>
           ))}
         </div>
       ) : (
