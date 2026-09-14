@@ -14,14 +14,14 @@ export default function TempleHeritage({ temples }: { temples: any[] }) {
       </h2>
       <div className="flex gap-6 overflow-x-auto pb-6 no-scrollbar">
         {temples.map((temple: any) => (
-          <div key={temple._id} className="min-w-[300px] group cursor-pointer">
+          <a key={temple._id} href={`/heritage/${temple._id}`} className="group block min-w-[300px] cursor-pointer">
             <div className="relative h-64 rounded-2xl overflow-hidden mb-4">
               <img src={urlFor(temple.image).url()} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" alt={temple.name} />
               <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent flex items-end p-5">
                 <h3 className="text-white text-xl font-bold">{temple.name}</h3>
               </div>
             </div>
-          </div>
+          </a>
         ))}
       </div>
     </section>

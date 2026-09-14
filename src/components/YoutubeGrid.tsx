@@ -41,9 +41,9 @@ export default function YoutubeGrid() {
                 <img src={`https://i.ytimg.com/vi/${video.id}/hqdefault.jpg`} className="h-full w-full object-cover transition-transform group-hover:scale-105" alt={video.title} />
                 <span className="absolute inset-0 flex items-center justify-center bg-black/20 text-4xl text-white transition-colors group-hover:bg-black/5">▶</span>
                 </div>
-                <div className="line-clamp-2 bg-background p-3 text-sm font-bold">{video.title}</div>
+                <div className="min-h-[4.5rem] bg-background p-3 text-sm font-bold leading-snug">{video.title}</div>
               </a>
-              <div className="bg-background px-3 pb-3">
+              <div className="flex min-h-[3.75rem] items-start bg-background px-3 pb-3 pt-1">
                 <a
                   href={`https://wa.me/?text=${encodeURIComponent(buildVideoShareMessage(video.title, `https://www.youtube.com/watch?v=${video.id}`))}`}
                   target="_blank"

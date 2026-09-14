@@ -133,7 +133,7 @@ export default function Home() {
             <NewsFilters posts={allNewsItems} onChange={setNewsItems} />
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
               {newsItems.length > 0 ? (
-                newsItems.map((post: any) => (
+                newsItems.slice(0, 6).map((post: any) => (
                   <NewsCard key={post._id} post={post} />
                 ))
               ) : (
@@ -143,13 +143,12 @@ export default function Home() {
 
             <LocalNewsCTA />
 
-            {/* THE BUTTON - Forced Visibility */}
             <div className="flex justify-center mt-16">
               <Link 
                 href="/news" 
                 className="group relative inline-flex items-center gap-3 bg-red-600 text-white px-10 py-4 rounded-2xl font-black text-lg hover:bg-black transition-all duration-300 shadow-[0_20px_50px_rgba(220,38,38,0.3)] hover:shadow-none"
               >
-                {lang === "KN" ? "ಮತ್ತಷ್ಟು ಸುದ್ದಿಗಳು" : "EXPLORE ALL NEWS"}
+                {lang === "KN" ? "ಮತ್ತಷ್ಟು ಸುದ್ದಿಗಳು" : "SHOW MORE NEWS"}
                 <ArrowRight size={22} className="group-hover:translate-x-2 transition-transform duration-300" />
               </Link>
             </div>
@@ -165,7 +164,7 @@ export default function Home() {
        {/*  <SocialFeed />*/}
 
         {/* HERITAGE CARDS */}
-        <TempleHeritage temples={templeData} />
+        <div id="heritage" className="scroll-mt-24"><TempleHeritage temples={templeData} /></div>
 
         {/* LIVE VIDEO NEWS */}
         <div id="live" className="scroll-mt-24">
