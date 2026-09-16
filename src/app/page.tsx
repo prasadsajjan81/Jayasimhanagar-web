@@ -60,25 +60,22 @@ export default function Home() {
     async function fetchAllData() {
       try {
         // 1. Fetch News
-        const news = await client.fetch(`*[_type == "news" && category != "Politics"] | order(publishedAt desc)[0...24]`);
+        const [news, epaper, mla, pNews, temples] = await Promise.all([
+          client.fetch(`*[_type == "news" && category != "Politics"] | order(publishedAt desc)[0...24]`),
+          client.fetch(`*[_type == "epaper"] | order(publishDate desc)[0...10] {
+            _id,
+            publishDate,
+            "pdfFiles": pdfFiles[]{ asset->{url} },
+            thumbnail
+          }`),
+          client.fetch(`*[_type == "mla"][0]`),
+          client.fetch(`*[_type == "news" && category == "Politics"] | order(publishedAt desc)[0...3]`),
+          client.fetch(`*[_type == "temple"]`),
+        ]);
         setNewsItems(news);
         setAllNewsItems(news);
-
-        // 2. FETCH MULTIPLE E-PAPERS (Fixes your issue)
-        // We fetch the latest 10 uploaded E-Paper documents
-        const epaper = await client.fetch(`*[_type == "epaper"] | order(publishDate desc)[0...10] {
-          _id,
-          publishDate,
-          "pdfFiles": pdfFiles[]{ asset->{url} },
-          thumbnail
-        }`);
         setEpaperData(epaper);
-
-        // 3. Fetch Politics and Temples (Same as before)
-        const mla = await client.fetch(`*[_type == "mla"][0]`);
-        const pNews = await client.fetch(`*[_type == "news" && category == "Politics"] | order(publishedAt desc)[0...3]`);
         setPoliticsData({ mla, news: pNews });
-        const temples = await client.fetch(`*[_type == "temple"]`);
         setTempleData(temples);
 
       } catch (error) {
@@ -101,8 +98,8 @@ export default function Home() {
         
         {/* E-PAPER SECTION - Fixed layout so title is above content */}
         {/* E-PAPER SECTION */}
-        <div id="epaper" className="scroll-mt-24 mt-12">
-          <div className="flex flex-col gap-4 border-b-4 border-red-600 pb-3 mb-8 sm:flex-row sm:items-end sm:justify-between">
+        <div id="epaper" className="scroll-mt-24 mt-8">
+          <div className="flex flex-col gap-4 border-b-4 border-red-600 pb-3 mb-6 sm:flex-row sm:items-end sm:justify-between">
             <div>
                <h2 className="text-4xl font-black text-red-600 leading-none">{content.epaper}</h2>
                <p className="text-[10px] font-bold text-muted-foreground mt-2 uppercase tracking-tighter">Digital Newspaper Archives</p>
@@ -122,9 +119,9 @@ export default function Home() {
         </div>
 
         {/* DAILY NEWS SECTION */}
-        <div id="news" className="scroll-mt-24 py-10">
-          <div className="flex items-center gap-3 mb-12">
-            <div className="h-10 w-2 bg-red-600 rounded-full" />
+        <div id="news" className="scroll-mt-24 py-6">
+          <div className="flex items-center gap-3 mb-6">
+            <div className="h-8 w-2 bg-red-600 rounded-full" />
             <h2 className="text-3xl md:text-5xl font-black">{content.headlines}</h2>
           </div>
 
@@ -143,7 +140,7 @@ export default function Home() {
 
             <LocalNewsCTA />
 
-            <div className="flex justify-center mt-16">
+            <div className="flex justify-center mt-10">
               <Link 
                 href="/news" 
                 className="group relative inline-flex items-center gap-3 bg-red-600 text-white px-10 py-4 rounded-2xl font-black text-lg hover:bg-black transition-all duration-300 shadow-[0_20px_50px_rgba(220,38,38,0.3)] hover:shadow-none"
@@ -168,8 +165,8 @@ export default function Home() {
 
         {/* LIVE VIDEO NEWS */}
         <div id="live" className="scroll-mt-24">
-          <div className="flex items-center gap-3 my-10">
-            <div className="h-10 w-2 bg-blue-600 rounded-full" />
+          <div className="flex items-center gap-3 my-6">
+            <div className="h-8 w-2 bg-blue-600 rounded-full" />
             <h2 className="text-3xl font-black">{content.video}</h2>
           </div>
           <YoutubeGrid />

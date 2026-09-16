@@ -1,5 +1,6 @@
 "use client";
 import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
 import { urlFor } from "@/lib/sanity";
 import { Calendar, Sparkles, Loader2, ArrowRight } from "lucide-react";
 import { useLanguage } from "@/context/LanguageContext";
@@ -7,6 +8,7 @@ import { translateText, summarizeNews } from "@/lib/gemini";
 import Link from "next/link";
 
 export default function NewsCard({ post }: { post: any }) {
+  const router = useRouter();
   const { lang } = useLanguage();
   const [displayTitle, setDisplayTitle] = useState(post.title);
   const [summary, setSummary] = useState("");
@@ -48,8 +50,21 @@ export default function NewsCard({ post }: { post: any }) {
     setLoadingAI(false);
   };
 
+  const openArticle = () => router.push(`/news/${post._id}`);
+
   return (
-    <div className="group bg-background border border-slate-200 dark:border-slate-800 rounded-3xl overflow-hidden hover:shadow-2xl transition-all duration-500 flex flex-col h-full">
+    <div
+      role="link"
+      tabIndex={0}
+      onClick={openArticle}
+      onKeyDown={(event) => {
+        if (event.key === "Enter" || event.key === " ") {
+          event.preventDefault();
+          openArticle();
+        }
+      }}
+      className="group cursor-pointer bg-background border border-slate-200 dark:border-slate-800 rounded-3xl overflow-hidden hover:shadow-2xl transition-all duration-500 flex flex-col h-full"
+    >
       {/* Image Section */}
       <div className="relative h-56 w-full overflow-hidden">
         {post.mainImage ? (
@@ -87,7 +102,10 @@ export default function NewsCard({ post }: { post: any }) {
 
         {/* AI Action Button */}
         <button 
-          onClick={handleSummary}
+          onClick={(event) => {
+            event.stopPropagation();
+            void handleSummary();
+          }}
           disabled={loadingAI}
           className="flex items-center gap-2 text-[10px] font-black bg-purple-100 text-purple-700 dark:bg-purple-900/30 dark:text-purple-400 px-4 py-2 rounded-xl hover:bg-purple-200 transition-colors mb-4 w-fit"
         >
@@ -103,7 +121,7 @@ export default function NewsCard({ post }: { post: any }) {
         )}
 
         <div className="mt-auto pt-4 border-t border-slate-100 dark:border-slate-800 flex justify-between items-center">
-          <Link href={`/news/${post._id}`} className="text-sm font-black text-red-600 flex items-center gap-1 group/btn">
+          <Link href={`/news/${post._id}`} onClick={(event) => event.stopPropagation()} className="text-sm font-black text-red-600 flex items-center gap-1 group/btn">
             {lang === "KN" ? "ಮತ್ತಷ್ಟು ಓದಿ" : "READ MORE"} 
             <ArrowRight size={16} className="group-hover/btn:translate-x-1 transition-transform"/>
           </Link>

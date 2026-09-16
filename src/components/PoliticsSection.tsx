@@ -1,5 +1,6 @@
 import { client, urlFor } from "@/lib/sanity";
 import { CheckCircle2, User, Trophy } from "lucide-react";
+import Link from "next/link";
 
 async function getMLAData() {
   // This fetches the first MLA document found in Sanity
@@ -25,7 +26,11 @@ export default function PoliticsSection({ mla, news }: { mla: any, news: any[] }
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
         
         {/* MLA Profile Card */}
-        <div className="bg-gradient-to-br from-blue-600 to-indigo-900 rounded-3xl p-8 text-white shadow-xl relative overflow-hidden">
+        <Link
+          href="/politics"
+          className="group bg-gradient-to-br from-blue-600 to-indigo-900 rounded-3xl p-8 text-white shadow-xl relative overflow-hidden transition-transform hover:-translate-y-1 hover:shadow-2xl focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-blue-300"
+          aria-label={`Read full politics and development details for ${mla.name || "the MLA"}`}
+        >
           <div className="relative z-10">
             <div className="w-24 h-24 rounded-2xl overflow-hidden mb-4 border-4 border-white/20">
               {mla.profilePicture && (
@@ -44,13 +49,21 @@ export default function PoliticsSection({ mla, news }: { mla: any, news: any[] }
           </div>
           {/* Decorative Background Icon */}
           <User className="absolute -right-10 -bottom-10 opacity-10" size={250} />
-        </div>
+          <span className="relative z-10 mt-6 inline-flex rounded-full bg-white/15 px-4 py-2 text-xs font-bold transition-colors group-hover:bg-white/25">
+            ಸಂಪೂರ್ಣ ವಿವರ ಓದಿ
+          </span>
+        </Link>
 
         {/* Development Projects List */}
         <div className="lg:col-span-2 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-3xl p-8 shadow-sm">
-          <h4 className="text-xl font-bold mb-6 flex items-center gap-2">
-            <CheckCircle2 className="text-green-500" /> ಪ್ರಮುಖ ಅಭಿವೃದ್ಧಿ ಕಾರ್ಯಗಳು (Works)
-          </h4>
+          <div className="mb-6 flex items-center justify-between gap-4">
+            <h4 className="text-xl font-bold flex items-center gap-2">
+              <CheckCircle2 className="text-green-500" /> ಪ್ರಮುಖ ಅಭಿವೃದ್ಧಿ ಕಾರ್ಯಗಳು (Works)
+            </h4>
+            <Link href="/politics" className="shrink-0 text-xs font-bold text-blue-600 hover:underline">
+              ಎಲ್ಲಾ ರಾಜಕೀಯ ಸುದ್ದಿ
+            </Link>
+          </div>
           
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {mla.developmentProjects?.map((project: string, index: number) => (
@@ -68,10 +81,16 @@ export default function PoliticsSection({ mla, news }: { mla: any, news: any[] }
              <p className="text-xs uppercase tracking-widest text-slate-400 mb-4 font-bold">ಇತ್ತೀಚಿನ ರಾಜಕೀಯ ಸುದ್ದಿ</p>
              <div className="space-y-3">
                {news.map((item: any) => (
-                 <div key={item._id} className="flex justify-between items-center group cursor-pointer">
+                 <Link
+                   key={item._id}
+                   href={`/news/${item._id}`}
+                   className="flex items-center justify-between gap-4 rounded-xl p-3 -mx-3 group hover:bg-slate-50 dark:hover:bg-slate-800/70 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-600"
+                 >
                    <p className="font-bold group-hover:text-blue-600 transition-colors">{item.title}</p>
-                   <span className="text-[10px] bg-slate-100 dark:bg-slate-800 px-2 py-1 rounded">Read</span>
-                 </div>
+                   <span className="shrink-0 text-[10px] bg-slate-100 dark:bg-slate-800 px-2 py-1 rounded group-hover:bg-blue-100 group-hover:text-blue-700 transition-colors">
+                     Read
+                   </span>
+                 </Link>
                ))}
              </div>
           </div>

@@ -6,6 +6,7 @@ import { client, urlFor } from "@/lib/sanity";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import ArticleShare from "@/components/ArticleShare";
+import BackButton from "@/components/BackButton";
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://www.jaishimhanagar.com";
 
@@ -59,8 +60,9 @@ export default async function NewsArticlePage({ params }: { params: Promise<{ id
   return (
     <div className="min-h-screen bg-background">
       <Header />
-      <article className="mx-auto max-w-4xl px-4 py-12">
-        <p className="mb-4 text-xs font-black uppercase tracking-widest text-red-600">{article.category || "News"}</p>
+      <article className="mx-auto max-w-4xl px-4 py-6 md:py-8">
+        <BackButton />
+        <p className="mb-3 text-xs font-black uppercase tracking-widest text-red-600">{article.category || "News"}</p>
         <h1 className="text-3xl font-black leading-tight md:text-5xl">{article.title}</h1>
         <div className="mt-5 flex flex-wrap items-center gap-x-5 gap-y-2 text-sm font-bold text-muted-foreground">
           {article.publishedAt && <span className="flex items-center gap-2"><Calendar size={15} /> Published {new Date(article.publishedAt).toLocaleDateString("en-IN")}</span>}
@@ -69,9 +71,9 @@ export default async function NewsArticlePage({ params }: { params: Promise<{ id
         </div>
         <ArticleShare title={article.title || "Jaishimhanagar News"} />
         {article.mainImage && (
-          <img src={urlFor(article.mainImage).width(1200).url()} alt={article.title || "News"} className="mt-8 max-h-[560px] w-full rounded-2xl object-cover" />
+          <img src={urlFor(article.mainImage).width(1200).url()} alt={article.title || "News"} className="mt-6 max-h-[560px] w-full rounded-2xl object-cover" />
         )}
-        <div className="prose prose-lg mt-10 max-w-none dark:prose-invert">
+        <div className="prose prose-lg mt-6 max-w-none dark:prose-invert">
           {blocks.length > 0 ? (
             <PortableText value={blocks as never} />
           ) : (
