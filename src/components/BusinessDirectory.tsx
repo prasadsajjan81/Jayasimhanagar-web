@@ -21,6 +21,7 @@ export type Business = {
   openingHours?: string;
   image?: Record<string, unknown>;
   featured?: boolean;
+  source?: string;
 };
 
 type Coordinates = { latitude: number; longitude: number };
@@ -44,6 +45,8 @@ export default function BusinessDirectory({ businesses }: { businesses: Business
   const [district, setDistrict] = useState("all");
   const [userLocation, setUserLocation] = useState<Coordinates | null>(null);
   const [locationMessage, setLocationMessage] = useState("");
+  const [nearbyPlaces, setNearbyPlaces] = useState<Business[]>([]);
+  const [nearbyLoading, setNearbyLoading] = useState(false);
 
   const categories = useMemo(
     () => Array.from(new Set(businesses.map((business) => business.category).filter(Boolean))) as string[],
@@ -85,9 +88,22 @@ export default function BusinessDirectory({ businesses }: { businesses: Business
       return;
     }
     navigator.geolocation.getCurrentPosition(
-      (position) => {
-        setUserLocation({ latitude: position.coords.latitude, longitude: position.coords.longitude });
-        setLocationMessage(lang === "KN" ? "ನಿಮ್ಮ ಹತ್ತಿರದ ವ್ಯಾಪಾರಗಳನ್ನು ತೋರಿಸಲಾಗುತ್ತಿದೆ." : "Showing businesses nearest to you.");
+      async (position) => {
+        const coordinates = { latitude: position.coords.latitude, longitude: position.coords.longitude };
+        setUserLocation(coordinates);
+        setNearbyLoading(true);
+        try {
+          const response = await fetch(`/api/businesses/nearby?lat=${coordinates.latitude}&lng=${coordinates.longitude}`);
+          if (!response.ok) throw new Error("Nearby businesses request failed.");
+          const data = await response.json() as { places?: Business[] };
+          setNearbyPlaces(data.places || []);
+          setLocationMessage(lang === "KN" ? "ನಿಮ್ಮ ಹತ್ತಿರದ ಪರಿಶೀಲಿಸದ ಸ್ಥಳಗಳನ್ನು ತೋರಿಸಲಾಗುತ್ತಿದೆ." : "Showing verified listings and nearby OpenStreetMap places.");
+        } catch (error) {
+          console.error("Nearby business discovery failed:", error);
+          setLocationMessage(lang === "KN" ? "ಹತ್ತಿರದ ಸ್ಥಳಗಳನ್ನು ಈಗ ಪಡೆಯಲು ಸಾಧ್ಯವಾಗಲಿಲ್ಲ." : "Nearby places could not be loaded right now.");
+        } finally {
+          setNearbyLoading(false);
+        }
       },
       () => setLocationMessage(lang === "KN" ? "ಸ್ಥಳ ಅನುಮತಿ ನೀಡಲಾಗಿಲ್ಲ. ಜಿಲ್ಲೆ ಆಯ್ಕೆ ಬಳಸಿ." : "Location permission was not granted. Use the district filter instead."),
       { enableHighAccuracy: false, maximumAge: 300000, timeout: 10000 },
@@ -114,20 +130,24 @@ export default function BusinessDirectory({ businesses }: { businesses: Business
         </button>
       </div>
       {locationMessage && <p className="mb-6 text-sm font-bold text-red-600">{locationMessage}</p>}
-      {filteredBusinesses.length === 0 ? (
+      {nearbyLoading && <p className="mb-6 text-sm font-bold text-red-600">Finding nearby places...</p>}
+      {filteredBusinesses.length === 0 && nearbyPlaces.length === 0 ? (
         <div className="rounded-3xl border border-dashed p-10 text-center text-muted-foreground">
-          {lang === "KN" ? "ಇನ್ನೂ ವ್ಯಾಪಾರ ಪಟ್ಟಿಗಳು ಪ್ರಕಟವಾಗಿಲ್ಲ. ನಿಮ್ಮ ವ್ಯಾಪಾರವನ್ನು ಪಟ್ಟಿ ಮಾಡಿ." : "No published businesses match your search yet. List your business below."}
+          <p className="font-bold">{lang === "KN" ? "ಇನ್ನೂ ಪರಿಶೀಲಿತ ವ್ಯಾಪಾರ ಪಟ್ಟಿಗಳು ಪ್ರಕಟವಾಗಿಲ್ಲ." : "No verified businesses are published yet."}</p>
+          <p className="mt-2 text-sm">{lang === "KN" ? "ನಿಮ್ಮ ವ್ಯಾಪಾರವನ್ನು ಪಟ್ಟಿ ಮಾಡಿ ಅಥವಾ ಹತ್ತಿರ ಹುಡುಕಿ ಬಳಸಿ." : "List your business, or use Find near me to discover nearby OpenStreetMap places."}</p>
         </div>
       ) : (
         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-          {filteredBusinesses.map((business) => {
+          {[...filteredBusinesses, ...nearbyPlaces].map((business) => {
             const distance = userLocation && business.latitude != null && business.longitude != null
               ? `${distanceInKm(userLocation, { latitude: business.latitude, longitude: business.longitude }).toFixed(1)} km away`
               : null;
             const whatsapp = business.whatsapp || business.phone;
             return (
               <article key={business._id} className="rounded-3xl border bg-background p-6 shadow-sm transition hover:-translate-y-1 hover:shadow-xl">
-                {business.featured && <span className="mb-3 inline-block rounded-full bg-amber-100 px-3 py-1 text-[10px] font-black uppercase tracking-widest text-amber-800">Featured</span>}
+                {business.source ? (
+                  <span className="mb-3 inline-block rounded-full bg-sky-100 px-3 py-1 text-[10px] font-black uppercase tracking-widest text-sky-800">Nearby · {business.source}</span>
+                ) : business.featured && <span className="mb-3 inline-block rounded-full bg-amber-100 px-3 py-1 text-[10px] font-black uppercase tracking-widest text-amber-800">Featured</span>}
                 <h2 className="text-xl font-black">{lang === "KN" && business.nameKn ? business.nameKn : business.name}</h2>
                 <p className="mt-1 text-xs font-black uppercase tracking-widest text-red-600">{business.category || "Local business"}</p>
                 {business.description && <p className="mt-3 text-sm text-muted-foreground">{business.description}</p>}

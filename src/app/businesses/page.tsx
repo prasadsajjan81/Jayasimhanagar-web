@@ -5,6 +5,7 @@ import BusinessDirectory, { type Business } from "@/components/BusinessDirectory
 import BusinessSubmissionForm from "@/components/BusinessSubmissionForm";
 import { client } from "@/lib/sanity";
 import { MessageCircle, PlusCircle } from "lucide-react";
+import BackButton from "@/components/BackButton";
 
 export const metadata: Metadata = {
   title: "Businesses & Ads | Jaishimhanagar",
@@ -28,6 +29,7 @@ export default async function BusinessesPage() {
     <div className="min-h-screen bg-background">
       <Header />
       <main className="container mx-auto px-4 py-12">
+        <BackButton />
         <div className="mb-10 flex flex-col justify-between gap-5 md:flex-row md:items-end">
           <div>
             <p className="mb-2 text-xs font-black uppercase tracking-widest text-red-600">Humnabad · Bidar</p>

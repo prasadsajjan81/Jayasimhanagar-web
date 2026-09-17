@@ -1,11 +1,11 @@
 import type { Metadata } from "next";
 import { PortableText } from "@portabletext/react";
 import { notFound } from "next/navigation";
-import { ArrowLeft, MapPin } from "lucide-react";
-import Link from "next/link";
+import { MapPin } from "lucide-react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { client, urlFor } from "@/lib/sanity";
+import BackButton from "@/components/BackButton";
 
 type Heritage = {
   _id: string;
@@ -33,9 +33,7 @@ export default async function HeritagePage({ params }: { params: Promise<{ id: s
     <div className="min-h-screen bg-background">
       <Header />
       <main className="mx-auto max-w-4xl px-4 py-12">
-        <Link href="/#heritage" className="mb-8 inline-flex items-center gap-2 font-bold hover:text-red-600">
-          <ArrowLeft size={18} /> Back to heritage
-        </Link>
+        <BackButton />
         <p className="mb-3 text-xs font-black uppercase tracking-widest text-orange-600">Humnabad Heritage</p>
         <h1 className="text-3xl font-black leading-tight md:text-5xl">{heritage.name || "Heritage place"}</h1>
         {heritage.image && <img src={urlFor(heritage.image).width(1200).url()} alt={heritage.name || "Heritage place"} className="mt-8 max-h-[560px] w-full rounded-3xl object-cover" />}

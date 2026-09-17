@@ -6,6 +6,7 @@ import Footer from "@/components/Footer";
 import { client } from "@/lib/sanity";
 import { useLanguage } from "@/context/LanguageContext";
 import { ChevronLeft, ChevronRight } from "lucide-react";
+import BackButton from "@/components/BackButton";
 
 export default function NewsArchive() {
   const { lang } = useLanguage();
@@ -29,6 +30,7 @@ export default function NewsArchive() {
     <div className="min-h-screen bg-background">
       <Header />
       <main className="container mx-auto px-4 py-12">
+        <BackButton />
         <h1 className="text-4xl font-black mb-10 border-l-8 border-red-600 pl-4">
           {lang === "KN" ? "ಸುದ್ದಿ ಸಂಚಯ" : "News Archive"}
         </h1>

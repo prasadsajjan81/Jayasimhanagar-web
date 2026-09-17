@@ -27,18 +27,18 @@ export default function Header() {
 
   return (
     <header className="sticky top-0 z-[100] w-full border-b bg-background/95 backdrop-blur shadow-sm text-foreground">
-      <div className="container mx-auto flex h-20 items-center justify-between px-4">
+      <div className="container mx-auto flex h-16 items-center justify-between gap-2 px-3 sm:h-20 sm:px-4">
         
         {/* Logo */}
-        <div className="flex items-center gap-2 cursor-pointer" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>
-          <img src="/logo.png" alt="Logo" className="h-12 w-12 rounded-full border border-red-500 bg-white" />
-          <div className="hidden sm:block">
-            <h1 className="text-xl md:text-2xl font-black leading-tight">{t.title}</h1>
-            <p className="text-[10px] font-bold uppercase tracking-widest text-slate-600 dark:text-slate-300">
+        <Link href="/" className="flex min-w-0 flex-1 items-center gap-2" aria-label="Go to Jaishimhanagar home">
+          <img src="/logo.png" alt="Logo" className="h-11 w-11 shrink-0 rounded-full border border-red-500 bg-white sm:h-12 sm:w-12" />
+          <div className="min-w-0">
+            <h1 className="truncate text-sm font-black leading-tight sm:text-xl md:text-2xl">{t.title}</h1>
+            <p className="hidden text-[10px] font-bold uppercase tracking-widest text-slate-600 dark:text-slate-300 sm:block">
               {lang === "KN" ? "ನಿಮ್ಮ ಸಮಸ್ಯೆಗೆ ನಮ್ಮ ಧ್ವನಿ" : "Your Problem, Our Voice"}
             </p>
           </div>
-        </div>
+        </Link>
 
         {/* Desktop Nav */}
         <nav className="hidden lg:flex items-center gap-6 font-bold text-sm">
@@ -50,7 +50,7 @@ export default function Header() {
         </nav>
 
         {/* Controls */}
-        <div className="flex items-center gap-2 md:gap-4">
+        <div className="flex shrink-0 items-center gap-1 md:gap-4">
            {/* Language Toggle */}
            <div className="flex rounded-full border border-slate-300 bg-slate-100 p-1 dark:border-slate-600 dark:bg-slate-800">
               <button onClick={() => setLang("KN")} className={`rounded-full px-2 py-1 text-[10px] font-bold ${lang === "KN" ? "bg-red-600 text-white" : "text-slate-900 dark:text-slate-100"}`}>KN</button>
@@ -70,11 +70,11 @@ export default function Header() {
 
       {/* Mobile Dropdown Menu */}
       {isMenuOpen && (
-        <div className="lg:hidden absolute top-20 left-0 w-full bg-background border-b shadow-xl p-6 space-y-4 animate-in slide-in-from-top flex flex-col text-left">
-          <button onClick={() => scrollTo('news')} className="text-xl font-bold border-b pb-2">{t.local}</button>
-          <button onClick={() => scrollTo('politics')} className="text-xl font-bold border-b pb-2">{t.politics}</button>
-          <button onClick={() => scrollTo('epaper')} className="text-xl font-bold border-b pb-2">{t.epaper}</button>
-          <Link href="/businesses" onClick={() => setIsMenuOpen(false)} className="flex items-center gap-2 border-b pb-2 text-xl font-bold"><Store size={20} /> {t.business}</Link>
+        <div className="absolute left-0 top-16 z-50 flex w-full flex-col space-y-4 border-b bg-background p-6 text-center shadow-xl animate-in slide-in-from-top sm:top-20 lg:hidden">
+          <button onClick={() => scrollTo('news')} className="border-b pb-2 text-xl font-bold">{t.local}</button>
+          <button onClick={() => scrollTo('politics')} className="border-b pb-2 text-xl font-bold">{t.politics}</button>
+          <button onClick={() => scrollTo('epaper')} className="border-b pb-2 text-xl font-bold">{t.epaper}</button>
+          <Link href="/businesses" onClick={() => setIsMenuOpen(false)} className="flex items-center justify-center gap-2 border-b pb-2 text-xl font-bold"><Store size={20} /> {t.business}</Link>
           <button onClick={() => scrollTo('live')} className="text-xl font-bold text-red-600">{t.live}</button>
         </div>
       )}

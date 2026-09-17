@@ -1,10 +1,11 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { CheckCircle2, UserRound, ArrowLeft } from "lucide-react";
+import { CheckCircle2, UserRound } from "lucide-react";
 import { client, urlFor } from "@/lib/sanity";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import NewsCard from "@/components/NewsCard";
+import BackButton from "@/components/BackButton";
 
 export const metadata: Metadata = {
   title: "Politics & Development | Jaishimhanagar",
@@ -26,9 +27,7 @@ export default async function PoliticsPage() {
     <div className="min-h-screen bg-background">
       <Header />
       <main className="container mx-auto px-4 py-6 md:py-8">
-        <Link href="/" className="mb-6 inline-flex items-center gap-2 rounded-full border px-4 py-2 text-sm font-bold hover:border-blue-600 hover:text-blue-600">
-          <ArrowLeft size={16} /> ಹಿಂದಕ್ಕೆ
-        </Link>
+        <BackButton />
 
         <h1 className="mb-8 border-l-8 border-blue-600 pl-4 text-3xl font-black md:text-5xl">
           ರಾಜಕೀಯ ಮತ್ತು ಅಭಿವೃದ್ಧಿ
