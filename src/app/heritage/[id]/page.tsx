@@ -33,7 +33,7 @@ export default async function HeritagePage({ params }: { params: Promise<{ id: s
     <div className="min-h-screen bg-background">
       <Header />
       <main className="mx-auto max-w-4xl px-4 py-12">
-        <BackButton />
+        <BackButton fallbackHref="/#heritage" />
         <p className="mb-3 text-xs font-black uppercase tracking-widest text-orange-600">Humnabad Heritage</p>
         <h1 className="text-3xl font-black leading-tight md:text-5xl">{heritage.name || "Heritage place"}</h1>
         {heritage.image && <img src={urlFor(heritage.image).width(1200).url()} alt={heritage.name || "Heritage place"} className="mt-8 max-h-[560px] w-full rounded-3xl object-cover" />}

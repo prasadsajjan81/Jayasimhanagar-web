@@ -37,7 +37,7 @@ export default function EPaperArchive() {
     <div className="min-h-screen bg-background">
       <Header />
       <main className="container mx-auto px-4 py-12">
-        <BackButton />
+        <BackButton fallbackHref="/#epaper" />
         <h1 className="text-3xl md:text-5xl font-black mb-10 border-l-8 border-red-600 pl-4 text-red-600 uppercase tracking-tighter">
           {lang === "KN" ? "ಹಳೆಯ ಪತ್ರಿಕೆಗಳ ಸಂಗ್ರಹ" : "Newspaper Archives"}
         </h1>

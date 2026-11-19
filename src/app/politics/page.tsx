@@ -28,7 +28,7 @@ export default async function PoliticsPage() {
     <div className="min-h-screen bg-background">
       <Header />
       <main className="container mx-auto px-4 py-6 md:py-8">
-        <BackButton />
+        <BackButton fallbackHref="/#politics" />
 
         <h1 className="mb-8 border-l-8 border-blue-600 pl-4 text-3xl font-black md:text-5xl">
           ರಾಜಕೀಯ ಮತ್ತು ಅಭಿವೃದ್ಧಿ

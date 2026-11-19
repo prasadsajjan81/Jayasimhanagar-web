@@ -61,7 +61,7 @@ export default async function NewsArticlePage({ params }: { params: Promise<{ id
     <div className="min-h-screen bg-background">
       <Header />
       <article className="mx-auto max-w-4xl px-4 py-6 md:py-8">
-        <BackButton />
+        <BackButton fallbackHref="/#news" />
         <p className="mb-3 text-xs font-black uppercase tracking-widest text-red-600">{article.category || "News"}</p>
         <h1 className="text-3xl font-black leading-tight md:text-5xl">{article.title}</h1>
         <div className="mt-5 flex flex-wrap items-center gap-x-5 gap-y-2 text-sm font-bold text-muted-foreground">

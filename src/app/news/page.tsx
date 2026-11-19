@@ -31,7 +31,7 @@ export default function NewsArchive() {
     <div className="min-h-screen bg-background">
       <Header />
       <main className="container mx-auto px-4 py-12">
-        <BackButton />
+        <BackButton fallbackHref="/#news" />
         <h1 className="text-4xl font-black mb-10 border-l-8 border-red-600 pl-4">
           {lang === "KN" ? "ಸುದ್ದಿ ಸಂಚಯ" : "News Archive"}
         </h1>
