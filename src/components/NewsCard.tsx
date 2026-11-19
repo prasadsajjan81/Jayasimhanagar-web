@@ -91,8 +91,8 @@ export default function NewsCard({ post }: { post: any }) {
       <div className="p-6 flex flex-col flex-1">
         <div className="flex items-center gap-2 text-muted-foreground text-[10px] font-bold mb-3">
           <Calendar size={12} />
-          {post.publishedAt
-            ? new Date(post.publishedAt).toLocaleDateString(lang === "KN" ? "kn-IN" : "en-US")
+          {(post.publishedAt || post._createdAt)
+            ? new Date(post.publishedAt || post._createdAt).toLocaleDateString(lang === "KN" ? "kn-IN" : "en-US")
             : lang === "KN" ? "ದಿನಾಂಕ ಲಭ್ಯವಿಲ್ಲ" : "Date unavailable"}
         </div>
 

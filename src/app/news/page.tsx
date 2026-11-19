@@ -18,7 +18,8 @@ export default function NewsArchive() {
     async function fetchArchive() {
       const start = page * itemsPerPage;
       const end = start + itemsPerPage;
-      const query = `*[_type == "news"] | order(publishedAt desc)[${start}...${end}]`;
+      const query = `*[_type == "news"]
+        | order(coalesce(publishedAt, _createdAt) desc, _createdAt desc, _id asc)[${start}...${end}]`;
       const data = await client.fetch(query);
       setNews(data);
       window.scrollTo({ top: 0, behavior: "smooth" });

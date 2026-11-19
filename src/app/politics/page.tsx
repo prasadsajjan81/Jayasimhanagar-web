@@ -15,7 +15,8 @@ export const metadata: Metadata = {
 async function getPoliticsData() {
   const [mla, news] = await Promise.all([
     client.fetch(`*[_type == "mla"][0]`),
-    client.fetch(`*[_type == "news" && category == "Politics"] | order(publishedAt desc)`),
+    client.fetch(`*[_type == "news" && category == "Politics"]
+      | order(coalesce(publishedAt, _createdAt) desc, _createdAt desc, _id asc)`),
   ]);
   return { mla, news };
 }

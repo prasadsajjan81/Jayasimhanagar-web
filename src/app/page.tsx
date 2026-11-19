@@ -61,7 +61,8 @@ export default function Home() {
       try {
         // 1. Fetch News
         const [news, epaper, mla, pNews, temples] = await Promise.all([
-          client.fetch(`*[_type == "news" && category != "Politics"] | order(publishedAt desc)[0...24]`),
+          client.fetch(`*[_type == "news"]
+            | order(coalesce(publishedAt, _createdAt) desc, _createdAt desc, _id asc)[0...24]`),
           client.fetch(`*[_type == "epaper"] | order(publishDate desc)[0...10] {
             _id,
             publishDate,
@@ -69,7 +70,8 @@ export default function Home() {
             thumbnail
           }`),
           client.fetch(`*[_type == "mla"][0]`),
-          client.fetch(`*[_type == "news" && category == "Politics"] | order(publishedAt desc)[0...3]`),
+          client.fetch(`*[_type == "news" && category == "Politics"]
+            | order(coalesce(publishedAt, _createdAt) desc, _createdAt desc, _id asc)[0...3]`),
           client.fetch(`*[_type == "temple"]`),
         ]);
         setNewsItems(news);

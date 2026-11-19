@@ -9,7 +9,8 @@ async function getMLAData() {
 
 async function getPoliticalNews() {
   // This fetches news specifically tagged as 'Politics'
-  return await client.fetch(`*[_type == "news" && category == "Politics"] | order(publishedAt desc)[0...3]`);
+  return await client.fetch(`*[_type == "news" && category == "Politics"]
+    | order(coalesce(publishedAt, _createdAt) desc, _createdAt desc, _id asc)[0...3]`);
 }
 
 export default function PoliticsSection({ mla, news }: { mla: any, news: any[] }) {
